@@ -1,0 +1,20 @@
+{
+  "name": "smart-commute-air-quality-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.8.1",
+    "nodemailer": "^8.0.5",
+    "razorpay": "^2.9.6",
+    "twilio": "^5.13.1"
+  },
+  "scripts": {
+    "build": "npm install --prefix smart-commute-air-quality && npm run build --prefix smart-commute-air-quality"
+  }
+}

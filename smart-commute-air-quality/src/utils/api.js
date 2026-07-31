@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // ─── Configured Axios Instance ────────────────────────────────────────────────
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
     withCredentials: true, // Send cookies (refresh token) with every request
 });
 
@@ -55,7 +55,7 @@ api.interceptors.response.use(
 
             try {
                 const { data } = await axios.post(
-                    'http://localhost:5000/api/auth/refresh-token',
+                    (import.meta.env.VITE_API_BASE_URL || '/api') + '/auth/refresh-token',
                     {},
                     { withCredentials: true }
                 );
