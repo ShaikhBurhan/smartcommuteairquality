@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useState, useCallback, lazy, Suspense } from "react";
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // Navbars & Layout (loaded eagerly — always visible)
 import Navbar from "./components/Navbar";
@@ -128,6 +129,7 @@ function App() {
         onAdminLogin={handleAdminLogin}
         onAdminLogout={handleAdminLogout}
       />
+      <SpeedInsights />
     </BrowserRouter>
   );
 }
