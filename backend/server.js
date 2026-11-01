@@ -32,7 +32,9 @@ const allowedOrigins = (process.env.CLIENT_ORIGINS
 
 if (!mongoUri) {
     console.error('MONGO_URI is missing. Add your MongoDB Atlas connection string to backend/.env.');
-    process.exit(1);
+    if (!process.env.VERCEL) {
+        process.exit(1);
+    }
 }
 
 // Middleware
@@ -42,6 +44,27 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
+
+// Database Connection helper for serverless & regular server
+let isDbConnected = false;
+const connectDB = async () => {
+    if (!isDbConnected && mongoose.connection.readyState === 0) {
+        if (!mongoUri) throw new Error('MONGO_URI is missing in environment variables');
+        await mongoose.connect(mongoUri);
+        isDbConnected = true;
+    }
+};
+
+// Auto-connect middleware for all API routes on Vercel
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (err) {
+        console.error('MongoDB connection error:', err.message);
+        res.status(500).json({ success: false, message: 'Database connection failed: ' + err.message });
+    }
+});
 
 // Routes
 app.use('/api', routes);
@@ -57,17 +80,18 @@ app.get('/api/status', (req, res) => {
     res.json({ status: 'success', message: 'Backend is running successfully.' });
 });
 
-// Database Connection
-mongoose
-    .connect(mongoUri, {
-        // useNewUrlParser and useUnifiedTopology are deprecated in newer Mongoose versions
-    })
-    .then(() => {
-        console.log('Connected to MongoDB successfully.');
-        app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
+// In local environment (not Vercel), start HTTP listener
+if (!process.env.VERCEL && process.env.NODE_ENV !== 'production') {
+    connectDB()
+        .then(() => {
+            console.log('Connected to MongoDB successfully.');
+            app.listen(PORT, () => {
+                console.log(`Server is running on port ${PORT}`);
+            });
+        })
+        .catch((error) => {
+            console.error('Error connecting to MongoDB:', error.message);
         });
-    })
-    .catch((error) => {
-        console.error('Error connecting to MongoDB:', error.message);
-    });
+}
+
+export default app;
