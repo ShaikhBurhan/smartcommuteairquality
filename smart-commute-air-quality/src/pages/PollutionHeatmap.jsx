@@ -48,7 +48,7 @@ function buildGrid(clat, clng, n = 5, stepDeg = 0.025) {
 // ─── FETCH AQI for one point via backend proxy ────────────────────────────────
 async function fetchAQI(lat, lng) {
   try {
-    const res  = await fetch(`http://localhost:5000/api/aqi?lat=${lat}&lng=${lng}`);
+    const res  = await fetch(`${API_BASE}/api/aqi?lat=${lat}&lng=${lng}`);
     const json = await res.json();
     return json.success ? json.aqi : null;
   } catch {

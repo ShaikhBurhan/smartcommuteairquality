@@ -3,10 +3,16 @@ import dotenv from 'dotenv';
 import Admin from './models/Admin.js';
 
 dotenv.config();
+const mongoUri = process.env.MONGO_URI;
+
+if (!mongoUri) {
+    console.error('MONGO_URI is missing. Add your MongoDB Atlas connection string to backend/.env.');
+    process.exit(1);
+}
 
 const seedAdmin = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/smart-commute');
+        await mongoose.connect(mongoUri);
         console.log('Connected to MongoDB for seeding...');
 
         // Check if admin already exists

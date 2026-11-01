@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { ShieldCheck, Mail, Lock, Loader2 } from "lucide-react";
 
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000").replace(/\/+$/, "");
+
 function AdminLogin({ onAdminLogin }) {
   const [credentials, setCredentials] = useState({
     email: "",
@@ -16,7 +18,7 @@ function AdminLogin({ onAdminLogin }) {
     setIsLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/admin/login", credentials);
+      const res = await axios.post(`${API_BASE}/api/admin/login`, credentials);
       if (res.data.success) {
         // Store admin token and profile
         localStorage.setItem("adminToken", res.data.token);

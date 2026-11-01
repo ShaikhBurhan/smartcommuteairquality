@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Wind, MapPin, Gauge, Plus, Trash2, RefreshCw, Loader2, X, ShieldAlert } from "lucide-react";
 
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000").replace(/\/+$/, "");
+
 function getAdminHeaders() {
   const token = localStorage.getItem("adminToken");
   return { headers: { Authorization: `Bearer ${token}` } };
@@ -27,7 +29,7 @@ function ManageAQI() {
 
   const fetchCities = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/cities", getAdminHeaders());
+      const res = await axios.get(`${API_BASE}/api/admin/cities`, getAdminHeaders());
       if (res.data.success) {
         setCities(res.data.data);
       }
@@ -48,7 +50,7 @@ function ManageAQI() {
     setAddError("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/admin/cities", addForm, getAdminHeaders());
+      const res = await axios.post(`${API_BASE}/api/admin/cities`, addForm, getAdminHeaders());
       if (res.data.success) {
         setCities([...cities, res.data.data]);
         setAddForm({ city: "", state: "", country: "India" });
@@ -65,7 +67,7 @@ function ManageAQI() {
     if (!window.confirm(`Remove "${cityName}" from monitoring?`)) return;
 
     try {
-      const res = await axios.delete(`http://localhost:5000/api/admin/cities/${id}`, getAdminHeaders());
+      const res = await axios.delete(`${API_BASE}/api/admin/cities/${id}`, getAdminHeaders());
       if (res.data.success) {
         setCities(cities.filter((c) => c._id !== id));
       }
@@ -77,7 +79,7 @@ function ManageAQI() {
   const handleRefresh = async (id) => {
     setRefreshingId(id);
     try {
-      const res = await axios.post(`http://localhost:5000/api/admin/cities/${id}/refresh`, {}, getAdminHeaders());
+      const res = await axios.post(`${API_BASE}/api/admin/cities/${id}/refresh`, {}, getAdminHeaders());
       if (res.data.success) {
         setCities(cities.map((c) => (c._id === id ? res.data.data : c)));
       }

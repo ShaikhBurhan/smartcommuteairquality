@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Users, MapPin, AlertCircle, Activity, CheckCircle2, ShieldAlert, UserPlus, Wind, Trash2, LogIn } from "lucide-react";
 
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000").replace(/\/+$/, "");
+
 // Helper to get auth headers
 function getAdminHeaders() {
   const token = localStorage.getItem("adminToken");
@@ -41,7 +43,7 @@ function AdminDashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/admin/dashboard-stats", getAdminHeaders());
+        const res = await axios.get(`${API_BASE}/api/admin/dashboard-stats`, getAdminHeaders());
         if (res.data.success) {
           setStats(res.data.data);
         }

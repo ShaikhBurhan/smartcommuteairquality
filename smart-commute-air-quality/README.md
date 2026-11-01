@@ -62,6 +62,7 @@ Create a `.env` file in the `/backend` directory and add the following environme
 ```env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
+CLIENT_ORIGINS=http://localhost:5173,https://smartcommuteairquality.vercel.app
 JWT_SECRET=your_jwt_secret_key
 RAZORPAY_KEY_ID=your_razorpay_key
 RAZORPAY_KEY_SECRET=your_razorpay_secret
@@ -92,6 +93,11 @@ Create a `.env` file in the `/smart-commute-air-quality` directory for any requi
 ```env
 VITE_API_BASE_URL=http://localhost:5000
 ```
+
+For deployment, set `VITE_API_BASE_URL` to the public backend URL in the frontend hosting
+environment, and set `CLIENT_ORIGINS` on the backend to the frontend origins that should
+be allowed (comma-separated, without trailing slashes). Redeploy the frontend after
+changing its environment variables.
 
 Start the frontend Vite development server:
 ```bash

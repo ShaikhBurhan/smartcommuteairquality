@@ -24,7 +24,12 @@ function Register() {
         navigate('/dashboard');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration sequence failed.');
+      setError(
+        err.response?.data?.message
+          || (err.request
+            ? 'Unable to reach the registration server. Check the API URL and try again.'
+            : err.message)
+      );
     }
   };
 

@@ -126,7 +126,7 @@ function RouteChecker() {
     try {
       setLoadingMsg('Calculating safe route (PRIM)...');
       
-      const res = await fetch('http://localhost:5000/api/prim/calculate', {
+      const res = await fetch(`${API_BASE}/api/prim/calculate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ startAddr, endAddr, travelMode })
@@ -145,7 +145,7 @@ function RouteChecker() {
 
       // Save journey securely via API
       const best = data.routes[0];
-      await fetch('http://localhost:5000/api/prim/save', {
+      await fetch(`${API_BASE}/api/prim/save`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

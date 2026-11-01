@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { UserCog, Pencil, Trash2, Check, X, ShieldAlert } from "lucide-react";
 
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000").replace(/\/+$/, "");
+
 function getAdminHeaders() {
   const token = localStorage.getItem("adminToken");
   return { headers: { Authorization: `Bearer ${token}` } };
@@ -16,7 +18,7 @@ function ManageUsers() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/admin/users", getAdminHeaders());
+        const res = await axios.get(`${API_BASE}/api/admin/users`, getAdminHeaders());
         if (res.data.success) {
           const mappedUsers = res.data.data.map(u => ({
             id: u._id,
@@ -40,7 +42,7 @@ function ManageUsers() {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to permanently delete this user?")) {
       try {
-        const res = await axios.delete(`http://localhost:5000/api/admin/users/${id}`, getAdminHeaders());
+        const res = await axios.delete(`${API_BASE}/api/admin/users/${id}`, getAdminHeaders());
         if (res.data.success) {
           setUsers(users.filter(u => u.id !== id));
         }
@@ -57,7 +59,7 @@ function ManageUsers() {
 
   const handleSaveEdit = async (id) => {
     try {
-      const res = await axios.put(`http://localhost:5000/api/admin/users/${id}`, editFormData, getAdminHeaders());
+      const res = await axios.put(`${API_BASE}/api/admin/users/${id}`, editFormData, getAdminHeaders());
       if (res.data.success) {
         setUsers(users.map(u => u.id === id ? { ...u, name: res.data.data.name, email: res.data.data.email, initials: res.data.data.name.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase() } : u));
         setEditingUserId(null);

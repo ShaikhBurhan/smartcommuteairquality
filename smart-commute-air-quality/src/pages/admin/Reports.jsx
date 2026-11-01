@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { LineChart, BarChart2, PieChart, ActivitySquare, TrendingUp, Loader2, ShieldAlert } from "lucide-react";
 
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000").replace(/\/+$/, "");
+
 function getAdminHeaders() {
   const token = localStorage.getItem("adminToken");
   return { headers: { Authorization: `Bearer ${token}` } };
@@ -15,7 +17,7 @@ function Reports() {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/admin/reports", getAdminHeaders());
+        const res = await axios.get(`${API_BASE}/api/admin/reports`, getAdminHeaders());
         if (res.data.success) {
           setReportData(res.data.data);
         }

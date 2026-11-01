@@ -135,7 +135,7 @@ function AirQuality() {
         ...(form.state.trim()   && { state:   form.state.trim()   }),
         ...(form.country.trim() && { country: form.country.trim() }),
       });
-      const res  = await fetch(`http://localhost:5000/api/aqi/city?${params}`);
+      const res  = await fetch(`${API_BASE}/api/aqi/city?${params}`);
       const json = await res.json();
       if (!json.success) throw new Error(json.message);
       setData(json);
