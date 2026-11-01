@@ -1,6 +1,7 @@
 {
   "name": "smart-commute-air-quality-monorepo",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "bcryptjs": "^3.0.3",
