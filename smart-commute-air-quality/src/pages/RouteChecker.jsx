@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { MapContainer, TileLayer, Polyline, Marker, Popup, useMap, LayersControl } from 'react-leaflet';
 import L from 'leaflet';
 import PageWrapper from '../components/PageWrapper';
+import { API_BASE } from '../utils/api';
 import {
   Navigation, MapPin, Search, ShieldAlert,
   AlertTriangle, Wind, Clock, ArrowDown, Leaf,

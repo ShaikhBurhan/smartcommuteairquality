@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PageWrapper from '../components/PageWrapper';
+import { API_BASE } from '../utils/api';
 import {
   Wind, Activity, AlertTriangle, CheckCircle,
   Search, MapPin, Globe, Loader, RefreshCw,

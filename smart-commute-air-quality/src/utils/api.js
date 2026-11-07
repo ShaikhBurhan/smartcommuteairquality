@@ -1,8 +1,11 @@
 import axios from 'axios';
 
+// Export API_BASE for components doing native fetch or needing the base URL
+export const API_BASE = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000').replace(/\/+$/, '');
+
 // ─── Configured Axios Instance ────────────────────────────────────────────────
 const api = axios.create({
-    baseURL: (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api',
+    baseURL: `${API_BASE}/api`,
     withCredentials: true, // Send cookies (refresh token) with every request
 });
 
@@ -55,7 +58,7 @@ api.interceptors.response.use(
 
             try {
                 const { data } = await axios.post(
-                    (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/auth/refresh-token',
+                    `${API_BASE}/api/auth/refresh-token`,
                     {},
                     { withCredentials: true }
                 );

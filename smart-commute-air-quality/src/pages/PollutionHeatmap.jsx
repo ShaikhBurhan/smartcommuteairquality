@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import PageWrapper from '../components/PageWrapper';
+import { API_BASE } from '../utils/api';
 import {
   Map, Layers, RefreshCw, Search, MapPin,
   Globe, AlertTriangle, Loader, Wind
